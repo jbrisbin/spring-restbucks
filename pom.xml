@@ -12,10 +12,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 		<spring.version>3.2.1.RELEASE</spring.version>
 		<slf4j.version>1.7.2</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<sd.rest>1.1.0.BUILD-20121127.165012-2</sd.rest>
+		<sd.rest>1.1.0.BUILD-SNAPSHOT</sd.rest>
 	</properties>
 
 	<dependencies>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.0.9</version>
+      <scope>runtime</scope>
+    </dependency>
 
 		<!-- Spring -->
 
@@ -145,6 +152,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>4.1.6.Final</version>
 		</dependency>
+
+    <!-- For now, include a few dependencies until they're made optional upstream. -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>4.3.1.Final</version>
+    </dependency>
 
 		<!-- Joda -->
 		<dependency>
