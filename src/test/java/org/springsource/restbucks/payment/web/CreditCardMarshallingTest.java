@@ -18,7 +18,7 @@ package org.springsource.restbucks.payment.web;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.joda.time.Years;
@@ -45,7 +45,7 @@ public class CreditCardMarshallingTest {
 	public void serializesCreditCardWithOutIdAndWithAppropriateMontshAndYears() throws Exception {
 
 		CreditCard creditCard = new CreditCard(new CreditCardNumber("1234123412341234"), "Oliver Gierke", Months.ELEVEN,
-				Years.years(2013));
+		                                       Years.years(2013));
 		assertThat(mapper.writeValueAsString(creditCard), is(REFERENCE));
 	}
 

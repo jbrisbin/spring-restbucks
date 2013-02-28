@@ -10,12 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springsource.restbucks.core.AbstractEntity;
@@ -26,7 +25,7 @@ import org.springsource.restbucks.core.MonetaryAmount;
 @Setter
 @ToString(exclude = "items")
 @Table(name = "RBOrder")
-@JsonAutoDetect(fieldVisibility = Visibility.ANY, isGetterVisibility = Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Order extends AbstractEntity {
 
 	private Location location;
