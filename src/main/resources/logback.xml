@@ -10,7 +10,9 @@
 		</encoder>
 	</appender>
 
+	<logger name="org.springsource.data.rest" level="debug" />
 	<logger name="org.springsource.restbucks" level="info" />
+  <logger name="org.springframework.web.servlet" level="debug" />
 	<logger name="org.springframework" level="info" />
 
 	<root level="warn">
