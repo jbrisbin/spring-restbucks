@@ -15,35 +15,25 @@
  */
 package org.springsource.restbucks;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.repository.support.DomainClassConverter;
 import org.springframework.data.repository.support.Repositories;
-import org.springframework.data.rest.webmvc.ResourceProcessorInvokingHandlerAdapter;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.http.MediaType;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import org.springsource.restbucks.payment.web.PaymentController;
 import org.springsource.restbucks.support.RepositoryLinkMetadataFactory;
 import org.springsource.restbucks.support.RestResourceEntityLinks;
 
@@ -52,7 +42,7 @@ import org.springsource.restbucks.support.RestResourceEntityLinks;
  * {@link AbstractAnnotationConfigDispatcherServletInitializer}. It essentially sets up a root application context from
  * {@link ApplicationConfig}, and a dispatcher servlet application context from {@link RepositoryRestMvcConfiguration}
  * (enabling Spring Data REST) and {@link WebConfiguration} for general Spring MVC customizations.
- * 
+ *
  * @author Oliver Gierke
  */
 public class RestbucksWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -95,22 +85,26 @@ public class RestbucksWebApplicationInitializer extends AbstractAnnotationConfig
 
 	/**
 	 * Web layer configuration enabling Spring MVC, Spring Hateoas {@link EntityLinks}.
-	 * 
+	 *
 	 * @author Oliver Gierke
 	 */
 	@Configuration
 	@Import(RepositoryRestMvcConfiguration.class)
-	@EnableWebMvc
+	//@EnableWebMvc
 	@EnableEntityLinks
 	@ComponentScan(excludeFilters = @Filter({ Service.class, Configuration.class }))
-	public static class WebConfiguration extends WebMvcConfigurerAdapter {
+	public static class WebConfiguration extends WebMvcConfigurationSupport {
 
 		@Autowired
 		Repositories repositories;
 
+		@Bean public DomainClassConverter<FormattingConversionService> domainClassConverter() {
+			return new DomainClassConverter<>(mvcConversionService());
+		}
+
 		/**
 		 * Registers a custom {@link EntityLinks} instance for all the types managed by Spring Data REST.
-		 * 
+		 *
 		 * @return
 		 */
 		@Bean
@@ -127,5 +121,7 @@ public class RestbucksWebApplicationInitializer extends AbstractAnnotationConfig
 		public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 			configurer.defaultContentType(MediaType.APPLICATION_JSON);
 		}
+
 	}
+
 }
